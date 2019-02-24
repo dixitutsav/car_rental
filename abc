@@ -1,0 +1,44 @@
+<html>
+<body>
+<?php
+session_start();
+$cnn=mysqli_connect('localhost','root','','toy_db') or die("not connected");
+
+if(isset($_POST['btnsubmit']))
+
+{
+	
+$sql="select * from registration where EmailId ='".$_POST['ename']."' AND Password = '".$_POST['pname']."'";
+$result=mysqli_query($cnn,$sql);
+$cnt=mysqli_num_rows($result); 
+
+	if($cnt > 0)
+	{
+		while($row=mysqli_fetch_array($result))
+		{
+			$email=$row['EmailId'];
+			$_SESSION['username']=$row['FirstName'];
+			$_SESSION['cid']=$row['Id'];
+			header('location:Product.php');
+		}
+		
+		
+	}
+	else
+	{
+		echo "user name or password is incorrect";
+	}
+	
+	
+}
+
+?>
+<form method="POST">
+
+Email<input type="text" name="ename"><br>
+password<input type="password"name="pname"><br>
+<input type="submit"name="btnsubmit">
+
+</form>
+<body>
+</html>
